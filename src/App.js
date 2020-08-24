@@ -31,8 +31,6 @@ function App() {
       try {
         // eslint-disable-next-line no-eval
         const ans = eval(expr);
-        // console.log(typeof ans);
-        // console.log(ans);
         if (ans === Infinity) {
           setAnswer("Error division by 0");
           setExpr("");
@@ -50,7 +48,6 @@ function App() {
       setExpr(expr + value);
     }
   };
-  console.log(error);
   return (
     <div className="App">
       {error ? <div className="error">{error}</div> : null}
