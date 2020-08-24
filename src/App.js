@@ -4,6 +4,7 @@ import "./App.css";
 function App() {
   const [answer, setAnswer] = useState("0");
   const [expr, setExpr] = useState("");
+  const [error, setError] = useState(null);
   const buttons = [
     { name: "9", value: "9" },
     { name: "8", value: "8" },
@@ -25,17 +26,34 @@ function App() {
   const handleButtonClick = (value) => {
     if (value === "ac") {
       setExpr("");
+      setAnswer("0");
     } else if (value === "=") {
-      // eslint-disable-next-line no-eval
-      const ans = eval(expr);
-      setAnswer("Ans." + ans);
-      setExpr(ans);
+      try {
+        // eslint-disable-next-line no-eval
+        const ans = eval(expr);
+        // console.log(typeof ans);
+        // console.log(ans);
+        if (ans === Infinity) {
+          setAnswer("Error division by 0");
+          setExpr("");
+        } else {
+          setAnswer("Ans." + ans);
+          setExpr(ans);
+        }
+      } catch (error) {
+        setError(`${error}`);
+        window.setTimeout(() => {
+          setError(null);
+        }, 3000);
+      }
     } else {
       setExpr(expr + value);
     }
   };
+  console.log(error);
   return (
     <div className="App">
+      {error ? <div className="error">{error}</div> : null}
       <div className="calculator">
         <textarea value={`${answer}\n${expr}`} id="screen" readOnly></textarea>
         <div className="buttons">
